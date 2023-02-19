@@ -1,0 +1,65 @@
+<div class="login-main">
+  <div class="max-w-3xl/4 md:w-1/3 mb-8 md:mb-0">
+    <div class="title-logo">
+      <app-logo></app-logo>
+      <h1 class="font-bold text-3xl mr-2 text-center text-primary uppercase">
+        Employee
+      </h1>
+      <p class="font-extralight">Management</p>
+    </div>
+    <img src="assets/images/vector-login.svg" alt="" />
+  </div>
+
+  <div class="w-96">
+    <cards-component>
+      <h1 class="font-bold text-xl mb-2 text-center text-primary uppercase">
+        Login
+      </h1>
+      <p class="text-center text-sm mb-5 text-gray-500">
+        Sign In to your account
+      </p>
+      <div
+        *ngIf="error"
+        class="bg-red-100 p-4 mb-4 text-sm text-red-800 rounded-lg"
+      >
+        <span class="font-medium">Error message!</span> {{ error }}
+      </div>
+      <form (submit)="login()" [formGroup]="formData!">
+        <input-with-label
+          label="Username"
+          placeholder="your username"
+          formControlName="username"
+          [error]="submit && (formData?.get('username'))!.invalid"
+        >
+          <div *ngIf="submit && (formData?.get('username'))!.invalid">
+            <error-input
+              *ngIf="formData?.get('username')!.errors?.['required']"
+            >
+              Username is required!
+            </error-input>
+          </div>
+        </input-with-label>
+
+        <input-with-label
+          label="Password"
+          type="password"
+          placeholder="your password"
+          formControlName="password"
+          [error]="submit && (formData?.get('password'))!.invalid"
+        >
+          <div *ngIf="submit && (formData?.get('password'))!.invalid">
+            <error-input
+              *ngIf="formData?.get('password')!.errors?.['required']"
+            >
+              Password is required!
+            </error-input>
+          </div>
+        </input-with-label>
+
+        <button-component (click)="login()" class="mt-5" [loading]="loading"
+          >Login</button-component
+        >
+      </form>
+    </cards-component>
+  </div>
+</div>

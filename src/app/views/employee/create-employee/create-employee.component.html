@@ -1,0 +1,173 @@
+<app-header-page
+  title="Create Employee"
+  subtitle="Employee Management System"
+></app-header-page>
+<div class="flex flex-col w-full md:w-2/3 mt-8 mb-8">
+  <form (submit)="create()" [formGroup]="formData">
+    <input-with-label
+      formControlName="username"
+      label="Username"
+      [error]="submit && formData.get('username')!.invalid"
+    >
+      <div *ngIf="submit && formData.get('username')!.invalid">
+        <error-input *ngIf="formData.get('username')!.errors?.['required']">
+          Username is required!
+        </error-input>
+      </div>
+    </input-with-label>
+
+    <div class="block md:flex space-x-0 md:space-x-8">
+      <div class="w-full">
+        <input-with-label
+          formControlName="firstName"
+          label="First Name"
+          [error]="submit && formData.get('firstName')!.invalid"
+        >
+          <div *ngIf="submit && formData.get('firstName')!.invalid">
+            <error-input
+              *ngIf="formData.get('firstName')!.errors?.['required']"
+            >
+              First Name is required!
+            </error-input>
+          </div>
+        </input-with-label>
+
+        <div class="mb-5">
+          <label
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="
+              submit && formData.get('group')!.invalid
+                ? 'text-red-700'
+                : 'text-gray-900'
+            "
+            >Group</label
+          >
+          <app-select-search
+            [data]="dataGroup.sort()"
+            optionsKey="value"
+            optionsValue="name"
+            formControlName="group"
+            [error]="submit && formData.get('group')!.invalid"
+          >
+            <div *ngIf="submit && formData.get('group')!.invalid">
+              <error-input *ngIf="formData.get('group')!.errors?.['required']">
+                Group is required!
+              </error-input>
+            </div>
+          </app-select-search>
+        </div>
+
+        <input-with-label
+          formControlName="email"
+          label="Email"
+          type="email"
+          [error]="submit && formData.get('email')!.invalid"
+        >
+          <div *ngIf="submit && formData.get('email')!.invalid">
+            <error-input *ngIf="formData.get('email')!.errors?.['required']">
+              Email is required!
+            </error-input>
+            <error-input *ngIf="formData.get('email')!.errors?.['email']">
+              Email must be a valid email address!
+            </error-input>
+          </div>
+        </input-with-label>
+
+        <input-with-label
+          label="Birth Date"
+          type="date"
+          [max]="dateNow"
+          formControlName="brithDate"
+          [error]="submit && formData.get('brithDate')!.invalid"
+        >
+          <div *ngIf="submit && formData.get('brithDate')!.invalid">
+            <error-input
+              *ngIf="formData.get('brithDate')!.errors?.['required']"
+            >
+              Brith Date is required!
+            </error-input>
+          </div>
+        </input-with-label>
+      </div>
+      <div class="w-full">
+        <input-with-label
+          formControlName="lastName"
+          label="Last Name"
+          [error]="submit && formData.get('lastName')!.invalid"
+        >
+          <div *ngIf="submit && formData.get('lastName')!.invalid">
+            <error-input *ngIf="formData.get('lastName')!.errors?.['required']">
+              Last Name is required!
+            </error-input>
+          </div>
+        </input-with-label>
+
+        <input-with-label
+          formControlName="basicSalary"
+          label="Basic Salary"
+          type="number"
+          [error]="submit && formData.get('basicSalary')!.invalid"
+        >
+          <div *ngIf="submit && formData.get('basicSalary')!.invalid">
+            <error-input
+              *ngIf="formData.get('basicSalary')!.errors?.['required']"
+            >
+              Basic Salary is required!
+            </error-input>
+          </div>
+        </input-with-label>
+
+        <div class="mb-5">
+          <label
+            class="block mb-2 text-sm font-medium"
+            [ngClass]="
+              submit && formData.get('status')!.invalid
+                ? 'text-red-700'
+                : 'text-gray-900'
+            "
+            >Group</label
+          >
+          <select
+            formControlName="status"
+            class="text-sm rounded-lg block w-full p-[11px]"
+            [ngClass]="
+              submit && formData.get('status')!.invalid
+                ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500'
+                : 'bg-gray-50 border border-gray-300 text-gray-900'
+            "
+          >
+            <option value="active">Active</option>
+            <option value="inactive">Incative</option>
+          </select>
+          <error-input *ngIf="submit && formData.get('status')!.invalid"
+            >Status is required!</error-input
+          >
+        </div>
+
+        <input-with-label
+          formControlName="description"
+          label="Description"
+          type="date"
+          [error]="submit && formData.get('description')!.invalid"
+        >
+          <div *ngIf="submit && formData.get('description')!.invalid">
+            <error-input
+              *ngIf="formData.get('description')!.errors?.['required']"
+            >
+              Description is required!
+            </error-input>
+          </div>
+        </input-with-label>
+        <div class="flex mt-12 justify-end space-x-3">
+          <button-component
+            (click)="close()"
+            type="button"
+            color="btn-white border border-gray-300"
+            >Cancel</button-component
+          >
+          <button-component [loading]="loading">Save</button-component>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

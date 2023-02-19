@@ -1,0 +1,23 @@
+<app-modal [id]="id">
+  <div class="modal-body space-x-2">
+    <div class="flex justify-center w-full mb-5">
+      <img
+        src="assets/images/avatar.jpeg"
+        class="w-28 h-28 absolute -top-14 rounded-full border-[3.5px] border-gray-200"
+        alt=""
+      />
+    </div>
+    <app-text-between
+      *ngFor="let item of data | keyvalue"
+      [left]="item.key.toLowerCase()"
+      [right]="
+        item.key == 'basicSalary'
+          ? helper.rupiah(intParse(item.value))
+          : item.value
+      "
+    ></app-text-between>
+  </div>
+  <div class="modal-footer">
+    <button-component (click)="modal.dismiss()">Close</button-component>
+  </div>
+</app-modal>

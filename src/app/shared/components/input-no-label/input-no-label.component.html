@@ -1,0 +1,16 @@
+<input
+  [type]="type"
+  [placeholder]="placeholder"
+  (input)="input($event)"
+  autocomplete="off"
+  [readonly]="readonly"
+  [ngClass]="[
+    class,
+    error
+      ? 'bg-red-50 border border-red-500 text-red-900 placeholder-red-700 focus:ring-red-500 focus:border-red-500'
+      : 'bg-gray-50 border border-gray-300 text-gray-900'
+  ]"
+  [(ngModel)]="value"
+  class="text-sm rounded-lg block w-full p-2.5"
+/>
+<ng-content></ng-content>

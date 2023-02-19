@@ -1,0 +1,77 @@
+<div class="relative">
+  <input-no-label
+    [readonly]="true"
+    class="cursor-pointer"
+    (click)="openSelect()"
+    [value]="value"
+    [error]="error"
+  >
+  </input-no-label>
+  <span
+    class="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+  >
+    <svg
+      *ngIf="value == ''"
+      class="w-4 h-4 text-gray-400"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M19 9l-7 7-7-7"
+      ></path>
+    </svg>
+
+    <svg
+      *ngIf="value != ''"
+      (click)="close()"
+      class="w-5 h-5 text-gray-400"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="2"
+        d="M6 18L18 6M6 6l12 12"
+      ></path>
+    </svg>
+  </span>
+  <div
+    *ngIf="showOptions"
+    class="absolute w-full z-50 mt-1 bg-white border border-gray-300 rounded-md shadow-md"
+  >
+    <div class="p-2">
+      <input
+        type="text"
+        class="border border-gray-300 rounded-sm text-sm px-2 py-1.5 w-full"
+        placeholder="search"
+        (input)="search($event)"
+      />
+    </div>
+    <div class="overflow-hidden max-h-48 overflow-y-scroll">
+      <ul class="py-1">
+        <li
+          (click)="selectOption(item)"
+          class="px-3 py-2 cursor-pointer text-sm hover:bg-gray-200"
+          *ngFor="let item of data"
+        >
+          {{ item[optionsValue] }}
+        </li>
+        <li
+          *ngIf="data.length == 0"
+          class="px-3 py-2 text-sm text-gray-500 text-center"
+        >
+          No Matching Results
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+<ng-content></ng-content>

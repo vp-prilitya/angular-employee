@@ -1,0 +1,7 @@
+.login-main {
+  @apply flex flex-col md:flex-row justify-center md:justify-evenly min-h-screen min-w-full items-center;
+}
+
+.title-logo {
+  @apply flex justify-center md:justify-start flex-row items-center mb-3;
+}
