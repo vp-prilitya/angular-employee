@@ -22,7 +22,6 @@ export class AppComponent {
       if (event instanceof NavigationEnd) {
         modal.dismiss();
         dialog.closeDialog();
-        toats.dismissToast();
       }
     });
   }
