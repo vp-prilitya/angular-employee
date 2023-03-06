@@ -56,10 +56,49 @@ export class AppService {
     return result;
   }
 
+  getEmployeByID(id: any): Observable<Employee> {
+    const result = new Observable<Employee>((observable) => {
+      this.getJson().subscribe((value) => {
+        if (this.data.length == 0) {
+          this.data = value;
+        }
+        const data = this.data.find((value, index) => index == id);
+        observable.next(data);
+        observable.complete();
+      });
+    });
+
+    return result;
+  }
+
   createEmployee(body: any): Observable<any> {
     const result = new Observable<any>((observable) => {
       setTimeout(() => {
         this.data.push(body);
+        observable.next('Data Created');
+        observable.complete();
+      }, 1000);
+    });
+
+    return result;
+  }
+
+  updateEmployee(id: any, data: Employee): Observable<any> {
+    const result = new Observable<any>((observable) => {
+      setTimeout(() => {
+        this.data.map(function (value, index) {
+          if (index == id) {
+            value.basicSalary = data.basicSalary;
+            value.brithDate = data.brithDate;
+            value.description = data.description;
+            value.email = data.email;
+            value.firstName = data.firstName;
+            value.group = data.group;
+            value.lastName = data.lastName;
+            value.status = data.status;
+            value.username = data.username;
+          }
+        });
         observable.next('Data Created');
         observable.complete();
       }, 1000);
@@ -80,5 +119,9 @@ export class AppService {
     } else {
       return false;
     }
+  }
+
+  delete(id: number) {
+    this.data.splice(id, 1);
   }
 }

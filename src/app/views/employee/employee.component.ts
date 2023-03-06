@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppService } from '../../app.service';
 import { Employee } from '../../models/employee';
 import { DialogService } from '../../shared/services/dialog.service';
@@ -27,7 +28,8 @@ export class EmployeeComponent implements OnInit {
     public helper: Helper,
     private toast: ToastService,
     private dialog: DialogService,
-    private modal: ModalService
+    private modal: ModalService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -92,11 +94,12 @@ export class EmployeeComponent implements OnInit {
     this.sorting(a);
   }
 
-  update() {
-    this.toast.showToast('Data has been updated ', TOAST_STATE.warning);
+  update(id: number) {
+    this.router.navigate(['employee/update/' + id]);
+    // this.toast.showToast('Data has been updated ', TOAST_STATE.warning);
   }
 
-  delete() {
+  delete(index: number) {
     this.dialog
       .showDialog(
         'Are You Sure?',
@@ -104,7 +107,9 @@ export class EmployeeComponent implements OnInit {
       )
       .subscribe((confirm) => {
         if (confirm) {
+          this.appService.delete(index);
           this.toast.showToast('Data has been deleted', TOAST_STATE.danger);
+          this.getData();
         }
       });
   }

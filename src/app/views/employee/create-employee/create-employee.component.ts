@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { AppService } from '../../../app.service';
+import { Employee } from '../../../models/employee';
 import {
   ToastService,
   TOAST_STATE,
@@ -18,6 +19,7 @@ export class CreateEmployeeComponent implements OnInit {
   formData!: FormGroup;
   submit: boolean = false;
   loading: boolean = false;
+  title?: string;
 
   dataGroup: Array<object> = [
     {
@@ -66,12 +68,10 @@ export class CreateEmployeeComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private service: AppService,
-    private toast: ToastService
+    private toast: ToastService,
+    private route: ActivatedRoute
   ) {
     this.dateNow = moment().format('YYYY-MM-DD');
-  }
-
-  ngOnInit(): void {
     this.formData = this.formBuilder.group({
       username: ['', Validators.required],
       firstName: ['', Validators.required],
@@ -85,6 +85,14 @@ export class CreateEmployeeComponent implements OnInit {
     });
   }
 
+  ngOnInit() {
+    this.title = 'Create';
+    if (this.route.snapshot.paramMap.get('id')) {
+      this.title = 'Update';
+      this.getData();
+    }
+  }
+
   get registerFormControl() {
     return this.formData.controls;
   }
@@ -96,14 +104,53 @@ export class CreateEmployeeComponent implements OnInit {
     }
 
     this.loading = true;
-    this.service.createEmployee(this.formData.value).subscribe((data) => {
-      this.router.navigate(['/employee']);
-      this.loading = false;
-      this.toast.showToast('Created Success!', TOAST_STATE.success);
-    });
+    if (!this.route.snapshot.paramMap.get('id')) {
+      this.service.createEmployee(this.formData.value).subscribe((data) => {
+        this.router.navigate(['/employee']);
+        this.loading = false;
+        this.toast.showToast('Created Success!', TOAST_STATE.success);
+      });
+    } else {
+      this.service
+        .updateEmployee(
+          this.route.snapshot.paramMap.get('id'),
+          this.formData.value
+        )
+        .subscribe((data) => {
+          this.router.navigate(['/employee']);
+          this.loading = false;
+          this.toast.showToast('Updated Success!', TOAST_STATE.warning);
+        });
+    }
   }
 
   close() {
     this.router.navigate(['/employee']);
+  }
+
+  getData() {
+    this.service
+      .getEmployeByID(this.route.snapshot.paramMap.get('id'))
+      .subscribe((data: Employee) => {
+        console.log(data);
+        this.formData.setValue({
+          username: data.username,
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          brithDate: this.formatDate(data.brithDate),
+          basicSalary: data.basicSalary,
+          status: data.status,
+          group: data.group,
+          description: this.formatDate(data.brithDate),
+        });
+      });
+    console.log('start');
+  }
+
+  formatDate(date: any) {
+    const d = new Date();
+
+    return moment(d).format('YYYY-MM-DD');
   }
 }

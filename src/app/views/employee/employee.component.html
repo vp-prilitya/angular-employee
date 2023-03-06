@@ -75,7 +75,7 @@
       <tr
         (click)="view(item)"
         class="bg-white border-b hover:bg-gray-50 cursor-pointer"
-        *ngFor="let item of dataSorting"
+        *ngFor="let item of dataSorting; let i = index"
       >
         <th
           scope="row"
@@ -102,7 +102,7 @@
           (click)="clickStopper($event)"
         >
           <div
-            (click)="delete()"
+            (click)="delete(i)"
             class="bg-gray-200 p-1 rounded-xl hover:bg-gray-300"
           >
             <svg
@@ -122,7 +122,7 @@
             </svg>
           </div>
           <div
-            (click)="update()"
+            (click)="update(i)"
             class="bg-gray-200 p-1 rounded-xl hover:bg-gray-300"
           >
             <svg
@@ -145,17 +145,22 @@
       </tr>
     </tbody>
   </table>
-  <div *ngIf="countData == 0" class="flex justify-center bg-white w-full p-4">
-    <app-loading *ngIf="loading"></app-loading>
-    <img *ngIf="!loading" src="assets/images/no-data.svg" width="300" alt="" />
+  <div
+    *ngIf="countData == 0 && !loading"
+    class="flex justify-center bg-white w-full p-4"
+  >
+    <img src="assets/images/no-data.svg" width="300" alt="" />
   </div>
+  <div *ngIf="loading" class="flex justify-center bg-white w-full p-4">
+    <app-loading></app-loading>
+  </div>
+  <div class="mt-5 mb-10">
+    <app-pagination
+      [length]="countData"
+      [size]="size"
+      [page]="page + 1"
+      (select)="pageChange($event)"
+    ></app-pagination>
+  </div>
+  <view-employee id="modal-view" [data]="dataView"></view-employee>
 </div>
-<div class="mt-5 mb-10">
-  <app-pagination
-    [length]="countData"
-    [size]="size"
-    [page]="page + 1"
-    (select)="pageChange($event)"
-  ></app-pagination>
-</div>
-<view-employee id="modal-view" [data]="dataView"></view-employee>

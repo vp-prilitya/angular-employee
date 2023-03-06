@@ -15,6 +15,11 @@ const routes: Routes = [
     component: CreateEmployeeComponent,
     canActivate: [AuthGuard],
   },
+  {
+    path: 'update/:id',
+    component: CreateEmployeeComponent,
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({

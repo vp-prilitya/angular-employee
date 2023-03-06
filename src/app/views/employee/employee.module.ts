@@ -6,14 +6,20 @@ import { CreateEmployeeComponent } from './create-employee/create-employee.compo
 import { EmployeRoutingModule } from './employee.routing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ViewEmployeeComponent } from './view-employee/view-employee.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [EmployeeComponent, CreateEmployeeComponent, ViewEmployeeComponent],
+  declarations: [
+    EmployeeComponent,
+    CreateEmployeeComponent,
+    ViewEmployeeComponent,
+  ],
   imports: [
     CommonModule,
     ComponentsModule,
     EmployeRoutingModule,
     ReactiveFormsModule,
+    FormsModule,
   ],
 })
 export class EmployeeModule {}
